@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.berrontech.erp.model.repository.general.PartQuantityMapper">
+    <sql id="columns">
+        pq.id                  pq_id,
+        pq.part_id             pq_part_id,
+        pq.storage_location_id pq_storage_location_id,
+        pq.binNo               pq_binNo,
+        pq.quantity            pq_quantity,
+        pq.minQuantity as pq_min_quantity,
+        pq.create_time         pq_create_time,
+        pq.update_time         pq_update_time,
+        pq.deleted             pq_deleted
+    </sql>
+    <sql id="select">
+        select
+        <include refid="columns"/>
+        from t_part_quantity as pq
+        where (pq.deleted = false or pq.deleted is null)
+    </sql>
+    <resultMap id="rm_base"
+               type="com.berrontech.erp.commons.entity.PartQuantity"
+               extends="com.berrontech.erp.model.repository.basic.AbstractMapper.rm_base">
+        <id column="pq_id" property="id"/>
+        <result column="pq_part_id" property="partId"/>
+        <result column="pq_storage_location_id" property="storageLocationId"/>
+        <result column="pq_binNo" property="binNo"/>
+        <result column="pq_quantity" property="quantity"/>
+        <result column="pq_min_quantity" property="minQuantity"/>
+        <result column="pq_create_time" property="createTime"/>
+        <result column="pq_update_time" property="updateTime"/>
+        <result column="pq_deleted" property="deleted"/>
+    </resultMap>
+    <resultMap id="rm_all" type="com.berrontech.erp.commons.entity.PartQuantity" extends="rm_base">
+        <association property="part" resultMap="com.berrontech.erp.model.repository.general.PartMapper.rm_all"/>
+        <association property="storageLocation"
+                     resultMap="com.berrontech.erp.model.repository.general.StorageLocationMapper.rm_base"/>
+    </resultMap>
+    <select id="selectByPartId" resultMap="rm_base">
+        <include refid="select"/>
+        and (pq.part_id=#{partId})
+    </select>
+    <select id="search" resultMap="rm_all">
+        select
+        <include refid="columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.PartMapper.columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.PartCategoryMapper.columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.PartClusterMapper.columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.StorageLocationMapper.columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.PartStatusMapper.columns"/>
+        from t_part_quantity as pq
+        right join t_part as p on pq.part_id = p.id
+        left outer join t_part_category as pc on p.part_category_id = pc.id
+        left outer join t_part_cluster as pcl on p.part_cluster_id = pcl.id
+        left outer join t_part_status as ps on p.part_status_id = ps.id
+        left outer join t_storage_location as sl on pq.storage_location_id=sl.id
+        where ((pq.deleted = false or pq.deleted is null) and (p.deleted = false or p.deleted is null) and
+        (pc.deleted = false or pc.deleted is null) and (pcl.deleted = false or pcl.deleted is null) and
+        (ps.deleted = false or ps.deleted is null))
+        <if test="categoryId!=null">
+            and (p.part_category_id = #{categoryId})
+        </if>
+        <if test="desc!=null">
+            and (p.description like #{desc} or p.model like #{desc} or p.packaging like #{desc})
+        </if>
+        <if test="partNoList!=null and partNoList.size>0">
+            and p.partNo in
+            <foreach collection="partNoList" open="(" close=")" separator="," item="partNo">
+                #{partNo}
+            </foreach>
+        </if>
+        <if test="storageLocationId!=null">
+            and pq.storage_location_id=#{storageLocationId}
+        </if>
+    </select>
+    <select id="selectFetchAllByQuantityLessThanMinQuantity" resultMap="rm_all">
+        select
+        <include refid="columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.StorageLocationMapper.columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.PartMapper.columns"/>
+        from t_part_quantity as pq
+        left outer join t_part as p on pq.part_id = p.id
+        left outer join t_part_category as pc on p.part_category_id = pc.id
+        left outer join t_storage_location as sl on pq.storage_location_id = sl.id
+        where pq.quantity&lt;pq.minQuantity
+    </select>
+    <select id="selectByPartAndStorageLocation" resultMap="rm_base">
+        <include refid="select"/>
+        and (
+        pq.part_id=#{partId} and
+        pq.storage_location_id=#{storageLocationId}
+        )
+    </select>
+    <update id="batchCountdownQuantities">
+        update t_part_quantity as pq
+        set quantity=quantity - (case pq.part_id
+        <foreach collection="items" item="item" open="" close="" separator="">
+            when #{item.partId} then #{item.count}
+        </foreach>
+        else
+        0
+        end
+        )
+        where pq.storage_location_id=#{storageLocationId}
+        and pq.part_id in
+        <foreach collection="items" item="item" separator="," open="(" close=")">
+            #{item.partId}
+        </foreach>
+    </update>
+    <select id="selectByPartIdsAndStorageLocation" resultMap="rm_base">
+        <include refid="select"/>
+        and (
+        pq.part_id in
+        <foreach collection="partIds" item="partId" open="(" close=")" separator=",">
+            #{partId}
+        </foreach>
+        and pq.storage_location_id=#{storageLocationId}
+        )
+    </select>
+</mapper>

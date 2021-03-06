@@ -1,0 +1,9 @@
+server:
+  port: 9012
+spring:
+  config:
+    activate:
+      on-profile: "release"
+logging:
+  level:
+    com.berrontech.sc: debug

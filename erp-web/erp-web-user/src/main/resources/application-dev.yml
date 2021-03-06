@@ -1,0 +1,9 @@
+server:
+  port: 9301
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+logging:
+  level:
+    com.berrontech.sc: debug
