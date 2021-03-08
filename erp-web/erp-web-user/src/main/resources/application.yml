@@ -3,7 +3,7 @@ spring:
     name: sc_server_user
   profiles:
     group:
-      "dev": "repository-dev,service-dev,web-dev,endpoint-dev"
-      "release": "repository-release,web-release,service-release,endpoint-release"
+      "dev": "repository-dev,service-dev,web-dev"
+      "release": "repository-release,web-release,service-release"
     active: @activeProfiles@
-    include: "repository,service,web,endpoint"
+    include: "repository,service,web"

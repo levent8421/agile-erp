@@ -29,7 +29,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>sc-user</finalName>
+        <finalName>agile-erp-user-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

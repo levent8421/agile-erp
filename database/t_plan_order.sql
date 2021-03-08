@@ -14,6 +14,7 @@ create table t_plan_order
     remark               text            null comment 'Remark Text',
     start_date           datetime        null comment 'order start date',
     end_date             datetime        null comment 'Order end date',
+    plan_start_date      datetime        null comment 'Order plan start date',
     plan_end_date        datetime        null comment 'Order end date',
     supplier_id          int(10)         not null comment 'Ref: t_supplier.id',
     task_time            decimal(20, 3)  not null comment 'Task time in hours',

@@ -35,11 +35,6 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
         entityClass = obtainEntityClass();
     }
 
-    @Override
-    public List<T> allByAddressIndexId(Integer addressIndexId) {
-        return null;
-    }
-
     /**
      * 获取实际的泛型类型
      *

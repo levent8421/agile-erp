@@ -18,3 +18,17 @@ create table t_market_order
   collate utf8_general_ci;
 
 
+
+select mo.id               as mo_id,
+       mo.state            as mo_state,
+       mo.order_no         as mo_order_no,
+       mo.creator_id       as mo_creator_id,
+       mo.remark           as mo_remark,
+       mo.exceed_date      as mo_exceed_date,
+       mo.customer_name    as mo_customer_name,
+       mo.delivery_address as mo_delivery_address,
+       mo.creator_id       as mo_creator_id,
+       mo.update_time      as mo_update_time,
+       mo.deleted          as mo_deleted
+from t_market_order as mo
+where mo.deleted = false;

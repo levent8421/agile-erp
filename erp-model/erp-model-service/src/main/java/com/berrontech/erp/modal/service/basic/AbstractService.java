@@ -47,14 +47,6 @@ public interface AbstractService<Entity extends AbstractEntity> {
     List<Entity> all();
 
     /**
-     * 获取全部对象
-     *
-     * @param addressIndexId 地区ID
-     * @return 实体对象列表
-     */
-    List<Entity> allByAddressIndexId(Integer addressIndexId);
-
-    /**
      * 分页查询所有对象
      *
      * @param page 页码

@@ -6,4 +6,4 @@ spring:
       on-profile: "dev"
 logging:
   level:
-    com.berrontech.sc: debug
+    com.berrontech.erp: debug

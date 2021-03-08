@@ -10,6 +10,7 @@ package com.berrontech.erp.commons.util;
  *
  * @author Levent8421
  */
+@FunctionalInterface
 public interface NoReturnFunction<T> {
     /**
      * function

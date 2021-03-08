@@ -46,7 +46,7 @@ public class ApiUserController extends AbstractController {
     }
 
     /**
-     * 当前用户的权限星系
+     * 当前用户的权限信息
      *
      * @return GR with permission Object
      */

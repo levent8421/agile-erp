@@ -13,3 +13,15 @@ create table t_market_order_item
 ) engine = 'Innodb'
   charset utf8
   collate utf8_general_ci;
+
+select moi.id              as moi_id,
+       moi.market_order_id as moi_market_order_id,
+       moi.part_id         as moi_part_id,
+       moi.pcs             as moi_pcs,
+       moi.remark          as moi_remark,
+       moi.state           as moi_state,
+       moi.create_time     as moi_create_time,
+       moi.update_time     as moi_update_time,
+       moi.deleted         as moi_deleted
+from t_market_order_item as moi
+where moi.deleted = false;

@@ -26,7 +26,7 @@ create index bom
 #  2021-03-04 ERP
 alter table t_part
     add column
-        produce_type int(3) not null default 0 comment 'Part type',
+        produce_type int(3) not null default 0 comment 'Produce type',
     add column
         task_time decimal(20, 3) not null default 0 comment 'Task time',
     add column
