@@ -37,6 +37,10 @@ public class MarketOrder extends AbstractEntity {
     @Column(name = "creator_id", length = 10, nullable = false)
     private Integer creatorId;
     /**
+     * 创建人
+     */
+    private User creator;
+    /**
      * 备注
      */
     @Column(name = "remark")

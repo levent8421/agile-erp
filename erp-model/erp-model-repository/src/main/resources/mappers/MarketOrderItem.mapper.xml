@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.berrontech.erp.model.repository.general.MarketOrderItemMapper">
+    <sql id="columns">
+        moi.id              as moi_id,
+        moi.market_order_id as moi_market_order_id,
+        moi.part_id         as moi_part_id,
+        moi.pcs             as moi_pcs,
+        moi.remark          as moi_remark,
+        moi.state           as moi_state,
+        moi.create_time     as moi_create_time,
+        moi.update_time     as moi_update_time,
+        moi.deleted         as moi_deleted
+    </sql>
+    <sql id="select">
+        select
+        <include refid="columns"/>
+        from t_market_order_item as moi
+        where moi.deleted = false
+    </sql>
+    <resultMap id="rm_base" type="com.berrontech.erp.commons.entity.MarketOrderItem"
+               extends="com.berrontech.erp.model.repository.basic.AbstractMapper.rm_base">
+        <id column="moi_id" property="id"/>
+        <result column="moi_market_order_id" property="marketOrderId"/>
+        <result column="moi_part_id" property="partId"/>
+        <result column="moi_pcs" property="pcs"/>
+        <result column="moi_remark" property="remark"/>
+        <result column="moi_state" property="state"/>
+        <result column="moi_create_time" property="createTime"/>
+        <result column="moi_update_time" property="updateTime"/>
+        <result column="moi_deleted" property="deleted"/>
+    </resultMap>
+</mapper>

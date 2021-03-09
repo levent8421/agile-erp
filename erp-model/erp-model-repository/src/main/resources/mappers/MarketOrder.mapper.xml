@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.berrontech.erp.model.repository.general.MarketOrderMapper">
+    <sql id="columns">
+        mo.id               as mo_id,
+        mo.state            as mo_state,
+        mo.order_no         as mo_order_no,
+        mo.creator_id       as mo_creator_id,
+        mo.remark           as mo_remark,
+        mo.exceed_date      as mo_exceed_date,
+        mo.customer_name    as mo_customer_name,
+        mo.delivery_address as mo_delivery_address,
+        mo.create_time      as mo_create_time,
+        mo.update_time      as mo_update_time,
+        mo.deleted          as mo_deleted
+    </sql>
+    <sql id="select">
+        select
+        <include refid="columns"/>
+        from t_market_order as mo
+        where mo.deleted = false
+    </sql>
+    <resultMap id="rm_base" type="com.berrontech.erp.commons.entity.MarketOrder"
+               extends="com.berrontech.erp.model.repository.basic.AbstractMapper.rm_base">
+        <id column="mo_id" property="id"/>
+        <result column="mo_state" property="state"/>
+        <result column="mo_order_no" property="orderNo"/>
+        <result column="mo_creator_id" property="creatorId"/>
+        <result column="mo_remark" property="remark"/>
+        <result column="mo_exceed_date" property="exceedDate"/>
+        <result column="mo_customer_name" property="customerName"/>
+        <result column="mo_delivery_address" property="deliveryAddress"/>
+        <result column="mo_create_time" property="createTime"/>
+        <result column="mo_update_time" property="updateTime"/>
+        <result column="mo_deleted" property="deleted"/>
+    </resultMap>
+    <resultMap id="rm_with_all" type="com.berrontech.erp.commons.entity.MarketOrder" extends="rm_base">
+        <association property="creator" resultMap="com.berrontech.erp.model.repository.general.UserMapper.rm_base"/>
+    </resultMap>
+    <sql id="select_with_all">
+        select
+        <include refid="columns"/>,shid
+        <include refid="com.berrontech.erp.model.repository.general.UserMapper.columns"/>
+        from t_market_order as mo left outer join t_user as u on u.id=mo.creator_id where (mo.deleted=false and
+        (u.deleted=false or u.deleted is null))
+    </sql>
+    <select id="selectByIdFetchAll" resultMap="rm_with_all">
+        <include refid="select_with_all"/>
+        and mo.id=#{id}
+    </select>
+    <select id="selectFetchAll" resultMap="rm_with_all">
+        <include refid="select_with_all"/>
+    </select>
+</mapper>
