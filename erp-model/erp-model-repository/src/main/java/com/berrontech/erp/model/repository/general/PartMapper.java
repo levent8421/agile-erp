@@ -2,7 +2,10 @@ package com.berrontech.erp.model.repository.general;
 
 import com.berrontech.erp.commons.entity.Part;
 import com.berrontech.erp.model.repository.basic.AbstractMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Create By Levent8421
@@ -16,4 +19,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PartMapper extends AbstractMapper<Part> {
+    /**
+     * 搜索物料
+     *
+     * @param query query
+     * @param max   max
+     * @return parts
+     */
+    List<Part> search(@Param("query") String query, @Param("max") Integer max);
 }

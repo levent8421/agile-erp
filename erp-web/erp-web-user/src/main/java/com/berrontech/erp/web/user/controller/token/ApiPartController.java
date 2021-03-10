@@ -83,4 +83,17 @@ public class ApiPartController extends AbstractController {
         final List<PartOutboundRecord> records = task.getRecords();
         return GeneralResult.ok(records);
     }
+
+    /**
+     * 搜索物料
+     *
+     * @param name 名称
+     * @param max  最大返回数量
+     * @return GR
+     */
+    @GetMapping("/_search")
+    public GeneralResult<List<Part>> search(@RequestParam("name") String name, @RequestParam("max") Integer max) {
+        final List<Part> parts = partService.search(name, max);
+        return GeneralResult.ok(parts);
+    }
 }

@@ -2,7 +2,10 @@ package com.berrontech.erp.model.repository.general;
 
 import com.berrontech.erp.commons.entity.MarketOrderItem;
 import com.berrontech.erp.model.repository.basic.AbstractMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Create By Levent8421
@@ -16,4 +19,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface MarketOrderItemMapper extends AbstractMapper<MarketOrderItem> {
+    /**
+     * Select by order id fetch all inner objects
+     *
+     * @param orderId orderId
+     * @return order items
+     */
+    List<MarketOrderItem> selectByOrderFetchAll(@Param("orderId") Integer orderId);
 }

@@ -1,10 +1,13 @@
 package com.berrontech.erp.modal.service.general.impl;
 
+import com.berrontech.erp.commons.context.OrderState;
 import com.berrontech.erp.commons.entity.MarketOrderItem;
 import com.berrontech.erp.modal.service.basic.impl.AbstractServiceImpl;
 import com.berrontech.erp.modal.service.general.MarketOrderItemService;
 import com.berrontech.erp.model.repository.general.MarketOrderItemMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Create By Levent8421
@@ -23,5 +26,16 @@ public class MarketOrderItemServiceImpl extends AbstractServiceImpl<MarketOrderI
     public MarketOrderItemServiceImpl(MarketOrderItemMapper marketOrderItemMapper) {
         super(marketOrderItemMapper);
         this.marketOrderItemMapper = marketOrderItemMapper;
+    }
+
+    @Override
+    public List<MarketOrderItem> findByOrderFetchAll(Integer orderId) {
+        return marketOrderItemMapper.selectByOrderFetchAll(orderId);
+    }
+
+    @Override
+    public void create(MarketOrderItem item) {
+        item.setState(OrderState.CREATED.code);
+        save(item);
     }
 }

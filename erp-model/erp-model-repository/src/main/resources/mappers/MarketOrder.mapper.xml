@@ -39,7 +39,7 @@
     </resultMap>
     <sql id="select_with_all">
         select
-        <include refid="columns"/>,shid
+        <include refid="columns"/>,
         <include refid="com.berrontech.erp.model.repository.general.UserMapper.columns"/>
         from t_market_order as mo left outer join t_user as u on u.id=mo.creator_id where (mo.deleted=false and
         (u.deleted=false or u.deleted is null))

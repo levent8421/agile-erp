@@ -3,6 +3,7 @@ package com.berrontech.erp.commons.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
@@ -20,9 +21,37 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class MarketOrderItem extends AbstractEntity {
+    /**
+     * 市场订单ID
+     */
+    @Column(name = "market_order_id", length = 10, nullable = false)
     private Integer marketOrderId;
+    /**
+     * 关联的市场订单
+     */
+    private MarketOrder marketOrder;
+    /**
+     * 物料ID
+     */
+    @Column(name = "part_id", length = 10, nullable = false)
     private Integer partId;
+    /**
+     * 关联的物料对象
+     */
+    private Part part;
+    /**
+     * 数量
+     */
+    @Column(name = "pcs", length = 20, nullable = false)
     private BigDecimal pcs;
+    /**
+     * 备注
+     */
+    @Column(name = "remark")
     private String remark;
+    /**
+     * 状态
+     */
+    @Column(name = "state", length = 2, nullable = false)
     private Integer state;
 }

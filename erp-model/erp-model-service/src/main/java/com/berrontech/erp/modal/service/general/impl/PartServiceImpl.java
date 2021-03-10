@@ -6,6 +6,8 @@ import com.berrontech.erp.modal.service.general.PartService;
 import com.berrontech.erp.model.repository.general.PartMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Create By Levent8421
  * Create Time: 2020/2/13 18:06
@@ -23,5 +25,11 @@ public class PartServiceImpl extends AbstractServiceImpl<Part> implements PartSe
     public PartServiceImpl(PartMapper partMapper) {
         super(partMapper);
         this.partMapper = partMapper;
+    }
+
+    @Override
+    public List<Part> search(String name, Integer max) {
+        final String query = String.format("%%%s%%", name);
+        return partMapper.search(query, max);
     }
 }

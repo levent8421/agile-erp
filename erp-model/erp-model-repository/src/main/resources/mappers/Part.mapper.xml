@@ -50,4 +50,9 @@
         <association property="partCluster"
                      resultMap="com.berrontech.erp.model.repository.general.PartClusterMapper.rm_base"/>
     </resultMap>
+    <select id="search" resultMap="rm_base">
+        <include refid="select"/>
+        and (p.partNo like #{query} or p.model like #{query} or p.packaging like #{query})
+        limit #{max}
+    </select>
 </mapper>

@@ -30,4 +30,22 @@
         <result column="moi_update_time" property="updateTime"/>
         <result column="moi_deleted" property="deleted"/>
     </resultMap>
+    <sql id="select_with_all">
+        select
+        <include refid="columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.MarketOrderMapper.columns"/>,
+        <include refid="com.berrontech.erp.model.repository.general.PartMapper.columns"/>
+        from t_market_order_item as moi left outer join t_part as p on moi.part_id=p.id left outer join t_market_order
+        as mo on moi.market_order_id=mo.id
+        where ((p.deleted=false or p.deleted is null) and moi.deleted=false and mo.deleted=false)
+    </sql>
+    <resultMap id="rm_with_all" type="com.berrontech.erp.commons.entity.MarketOrderItem" extends="rm_base">
+        <association property="part" resultMap="com.berrontech.erp.model.repository.general.PartMapper.rm_base"/>
+        <association property="marketOrder"
+                     resultMap="com.berrontech.erp.model.repository.general.MarketOrderMapper.rm_base"/>
+    </resultMap>
+    <select id="selectByOrderFetchAll" resultMap="rm_with_all">
+        <include refid="select_with_all"/>
+        and moi.market_order_id=#{orderId}
+    </select>
 </mapper>
